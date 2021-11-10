@@ -64,17 +64,20 @@ class MapObject():
     def set_path(self,map_path):
         self.map_path = map_path
         self.store_map()
-        #calls an array OUTSIDE the class
+        # Calls an array OUTSIDE the class.
         self.map_array = grid_patcher(self.map_array)
         self.map_original = self.map_array
 
     def store_map(self):
-        #stores text from file as 2D array or list: [[x1,x2,x3],[x1,x2,x3]]
+        """
+        Stores text from file as 2D array or list: [[x1,x2,x3],[x1,x2,x3]]
+        Also makes a copy called map_original.
+        """
         with open(self.map_path,'r') as file:
             currentline = file.readline() # a string
             while currentline:
                 xlist = []
-                #remove any newline calls
+                # Remove any newline calls.
                 currentline = currentline[:-1]
                 for char in currentline:
                     xlist.append(char)
@@ -83,7 +86,7 @@ class MapObject():
             
     def print_all(self):                     # \/ leaves space for variables
         for i in range(0,len(self.map_array) + 3):
-            # This will remove the previous printing of the map
+            # This will remove the previous printing of the map.
             print('\033[A\033[F')
         for yrow in self.map_array:
             for yitem in yrow:
@@ -109,18 +112,18 @@ class MapObject():
 class VarObject():
     def __init__(self,variable, value):
         """
-        stores a variable and what it equals
+        Stores a variable and what it equals.
         """
         self.variable = variable
         self.value = value
-        #This is for any variable that is NOT a class
+        # This is for any variable that is NOT a class.
         # i.e. var1 = 4, var3 = "hello"
 
 class ClassObject():
     #iterations of this are to be stored in a regular dictionary
     """
-    functions: set_xy(x,y), set_origin(x,y), set_array(array), set_map_char(char), set_movement(boolean),
-    originx(), originy(), topleft(), bottomright()
+    Functions: set_xy(x,y), set_origin(x,y), set_map_char(char), get_map_char(), set_movement(boolean),
+    get_originx(), get_originy(), topleft(), bottomright()
     """
     #class type: map, sprite, sprites
     #origin, movement FOR SPRITE ONLY
@@ -132,11 +135,6 @@ class ClassObject():
         #self.geometry = "default"
         self.movement = False
         self.on_map = ""
-
-    def get_array(self):
-        return self.array
-    def set_array(self,array:list):
-        self.array = array
 
     def get_map_char(self):
         return self.on_map
@@ -156,7 +154,7 @@ class ClassObject():
 
     def set_xy_char(self,x,y,newchar):
         """
-        Change a character at a given coordinate
+        Change a character at a given coordinate.
         """
         try:
             self.array[y,x] = newchar
@@ -186,7 +184,7 @@ class ClassObject():
         return [len(self.array)-1,len(self.array[len(self.array)-1])-1]
 
 def compile(lines:list):
-    #Store variables in dictionaries
+    # Store variables in dictionaries.
     map_array = MapObject()
     var_container = {}
     #\/ This CAN contain copies of sprites that are named by the user 
